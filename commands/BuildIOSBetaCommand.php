@@ -14,7 +14,8 @@ class BuildIOSBetaCommand extends Command
         $this
             ->setName('build-ios-beta')
             ->setDescription('Build and publish a new iOS beta version to TestFlight and FIR')
-            ->addOption('changelog', 'c', InputOption::VALUE_REQUIRED, 'The changelog for this beta build', null);
+            ->addOption('changelog', 'c', InputOption::VALUE_REQUIRED, 'The changelog for this beta build', null)
+            ->addOption('upload-only');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -30,6 +31,8 @@ class BuildIOSBetaCommand extends Command
             $output->writeln('<error>Changelog is required</error>');
             exit(0);
         }
+
+        $upload_only = boolval($input->getOption('upload-only'));
 
         // Default Path
         $xcode_build_bin_path = BASE_PATH . '/bin/xcbuild-safe.sh';
@@ -80,20 +83,21 @@ class BuildIOSBetaCommand extends Command
 cd {$project_path}
 CMD;
 
-        // Clean Build
-        $commands[] = <<<CMD
+        if (!$upload_only) {
+            // Clean Build
+            $commands[] = <<<CMD
 {$xcode_build_bin_path} \
 clean -workspace {$workspace} -scheme {$scheme} -configuration Release
 CMD;
 
-        // Archive Build
-        $commands[] = <<<CMD
+            // Archive Build
+            $commands[] = <<<CMD
 {$xcode_build_bin_path} \
 archive -workspace {$workspace} -scheme {$scheme} -archivePath {$tmp_path}/{$scheme}.xcarchive
 CMD;
 
-        // Export AppStore .ipa File
-        $commands[] = <<<CMD
+            // Export AppStore .ipa File
+            $commands[] = <<<CMD
 {$xcode_build_bin_path} \
 -exportArchive \
 -archivePath {$tmp_path}/{$scheme}.xcarchive \
@@ -101,18 +105,19 @@ CMD;
 -exportOptionsPlist {$config_path}/AppStore_exportOptions.plist
 CMD;
 
-        // Export AdHoc .ipa File
-        $commands[] = <<<CMD
+            // Export AdHoc .ipa File
+            $commands[] = <<<CMD
 {$xcode_build_bin_path} \
 -exportArchive \
 -archivePath {$tmp_path}/{$scheme}.xcarchive \
 -exportPath {$tmp_path}/{$scheme}_AdHoc \
 -exportOptionsPlist {$project_path}/AdHoc_exportOptions.plist
 CMD;
+        }
 
         // Upload To TestFlight
         $commands[] = <<<CMD
-{$altool_path} \
+"{$altool_path}" \
 --upload-app \
 -f {$tmp_path}/{$scheme}_AppStore/{$scheme}.ipa \
 -u {$appstore_username} \

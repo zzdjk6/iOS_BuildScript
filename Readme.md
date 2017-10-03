@@ -14,8 +14,6 @@ Do not put this project and related files into a folder with whitespaces in its 
 
 ## Config
 
-Find your `altool` and link it to a location without whitespaces in path, like `sudo ln -s /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support/altool /usr/local/bin/altool`
-
 `cd config`
 
 `cp config.env.example config.env`
