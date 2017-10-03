@@ -12,7 +12,7 @@
 
 `cd config`
 
-`copy config.env.example config.env`
+`cp config.env.example config.env`
 
 Then edit the `config.env`
 
