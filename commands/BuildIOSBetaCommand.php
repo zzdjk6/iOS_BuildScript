@@ -43,7 +43,7 @@ class BuildIOSBetaCommand extends Command
         }
 
         $workspace = getenv('WORKSPACE');
-        if (!$workspace || !file_exists("{$project_path}/{$workspace}") || !is_file("{$project_path}/{$workspace}")) {
+        if (!$workspace || !file_exists("{$project_path}/{$workspace}")) {
             $output->writeln('<error>WORKSPACE is not valid</error>');
             exit(0);
         }
@@ -55,7 +55,7 @@ class BuildIOSBetaCommand extends Command
         }
 
         $altool_path = getenv('ALTOOL_PATH');
-        if (!$altool_path) {
+        if (!$altool_path || !file_exists($altool_path)) {
             $output->writeln('<error>ALTOOL_PATH is not valid</error>');
             exit(0);
         }

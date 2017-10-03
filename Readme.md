@@ -8,7 +8,13 @@
 
 1. Install `fir-cli`, see https://github.com/FIRHQ/fir-cli
 
+## Warning
+
+Do not put this project and related files into a folder with whitespaces in its path.
+
 ## Config
+
+Find your `altool` and link it to a location without whitespaces in path, like `sudo ln -s /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Support/altool /usr/local/bin/altool`
 
 `cd config`
 
@@ -24,7 +30,7 @@ See http://www.matrixprojects.net/p/xcodebuild-export-options-plist/ for details
 
 ## Execute Command
 
-`php application.php`
+`php application.php --changelog=""`
 
 You can grant `execute` permission to `application.php`, and run it directly if you like.
 

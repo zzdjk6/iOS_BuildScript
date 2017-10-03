@@ -16,7 +16,7 @@ use Symfony\Component\Console\Application;
 
 define('BASE_PATH', __DIR__);
 
-$dotenv = new Dotenv(BASE_PATH . '/config');
+$dotenv = new Dotenv(BASE_PATH . '/config', 'config.env');
 $dotenv->load();
 
 $application = new Application();
