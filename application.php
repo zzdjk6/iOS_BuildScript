@@ -21,6 +21,7 @@ $dotenv->load();
 
 $application = new Application();
 
-$application->add(new commands\BuildBetaCommand());
+$application->add(new commands\BuildIOSBetaCommand());
+$application->setDefaultCommand('build-ios-beta');
 
 $application->run();
