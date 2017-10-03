@@ -1,0 +1,6 @@
+{
+  "require": {
+    "symfony/console": "^3.3",
+    "vlucas/phpdotenv": "^2.4"
+  }
+}
